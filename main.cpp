@@ -6,12 +6,9 @@ using namespace std;
 vector<pair<string,int>> amountMoney;
 
 
-void mapPrint(){
-
-    for(auto it=amountMoney.begin();it != amountMoney.end();++it){
+void vectorPrint(){
+    for(auto it=amountMoney.begin();it != amountMoney.end();++it)
         cout<<it->first<<" "<<it->second<<endl;
-    }
-
 }
 
 void modify(string id, int amount, bool incrementar){
@@ -26,12 +23,11 @@ void modify(string id, int amount, bool incrementar){
 int main() {
     int numPerson;
 
-    string Identificador;
+    string Id;
     string Person;
 
     int costGift;
-    int cantPerson;
-    int extra;
+    int totalPerson;
     int costForPerson;
 
     bool firstGroup=true;
@@ -39,32 +35,30 @@ int main() {
     while (cin >> numPerson) {
 
         for (int i = 0; i < numPerson; ++i) {
-            cin >> Identificador;
-            amountMoney.push_back(pair<string, int>(Identificador, 0));
+            cin >> Id;
+            amountMoney.emplace_back(Id,0);
         }
 
         for (int i = 0; i < numPerson; ++i) {
-            cin >> Identificador>>costGift>>cantPerson;
+            cin >> Id >> costGift >> totalPerson;
 
-            if(cantPerson!=0){
-                modify(Identificador,costGift,false);
+            if(totalPerson!=0){
+                costForPerson = costGift / totalPerson;
 
-                costForPerson = costGift / cantPerson;
-                extra = costGift - costForPerson*cantPerson;
+                modify(Id,costForPerson*totalPerson,false);
 
-                if(extra != 0 ) modify(Identificador,extra,true);
-
-                for (int j = 0; j < cantPerson; ++j) {
+                for (int j = 0; j < totalPerson; ++j) {
                     cin >> Person;
                     modify(Person,costForPerson,true);
                 }
+            
             }
 
         }
 
         if(!firstGroup) cout<<endl;
 
-        mapPrint();
+        vectorPrint();
         firstGroup = false;
 
         amountMoney.clear();
